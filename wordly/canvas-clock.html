@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<title>Canvas画图基础-路径</title>
 </head>
 <body>
-	<!-- <canvas id="canvas" width="500" height="500" ></canvas> -->
-	<canvas id="canvas1" width="500" height="500" ></canvas>
-	<span id="span"></span>
+	<canvas id="clock" width="500" height="500" ></canvas>
 </body>
 
 <style type="text/css">
@@ -15,19 +13,20 @@
 </style>
 <script type="text/javascript">
 	function canvasClock () {
-		var canvas = document.getElementById("canvas1");
-		var ctx1 = canvas.getContext('2d');
-		ctx1.lineWidth = 7;
+		var canvas = document.getElementById("clock");
+		var clock = canvas.getContext('2d');
+		clock.lineWidth = 7;
 		var timer = null;
-	    var time = new Date();
-	    var h = time.getHours();
-	    var m = time.getMinutes();
-	    var s = time.getSeconds();
+	    var now = new Date();
+	    var h = now.getHours();
+	    var m = now.getMinutes();
+	    var s = now.getSeconds();
+	    //时间刻度的关系
 	    var md = s/600,hd = m/120;
 	    var srotate = s*Math.PI/30-Math.PI/2;
 	    var mrotate = m*Math.PI/30+md-Math.PI/2;
 	    var hrotate = h*Math.PI/6+hd-Math.PI/2;
-
+	    //定义圆圈
 		function circle(o,x,y,r,s,e,b,rgb) {
 			o.beginPath();
 			o.strokeStyle = '#'+ rgb;
@@ -36,15 +35,37 @@
 		}
 		function draw(ctx) {
 	        ctx.clearRect(0,0,500,500);
-	        circle(ctx, 90, 190, 50, Math.PI*1.5, hrotate, false, '44ee00');
-	        circle(ctx, 190, 190, 50, Math.PI*1.5, mrotate, false, '000');
-	        circle(ctx, 290, 190, 50, Math.PI*1.5, srotate, false, 'ee5500');
+	        circle(ctx, 100, 200, 50, Math.PI*1.5, hrotate, false, '126acd');
+	        circle(ctx, 200, 200, 50, Math.PI*1.5, mrotate, false, '12855b');
+	        circle(ctx, 300, 200, 50, Math.PI*1.5, srotate, false, 'ee5500');
+	        ctx.font = "60px Arial";
+	        ctx.fillStyle = '#126acd';
+	        if(h < 10){
+	        	ctx.fillText('0'+h,65,220);
+	        }else{
+	        	ctx.fillText(h,65,220);
+	        }
+
+	        ctx.fillStyle = '#12855b';
+	        if(m < 10){
+	        	ctx.fillText('0'+m,165,220);
+	        }else{
+	        	ctx.fillText(m,165,220);
+	        }
+
+	        ctx.fillStyle = '#ee5500';
+	        if(s < 10){
+	        	ctx.fillText('0'+s,265,220);
+	        }else{
+	        	ctx.fillText(s,265,220);
+	        }
+
 	        requestAnimationFrame(function () {
 		        draw(ctx);
 		    });
 		}
         requestAnimationFrame(function () {
-	        draw(ctx1);
+	        draw(clock);
 	    });
 	    console.log(hrotate,mrotate,srotate,h,m,s)
 	}
