@@ -12,64 +12,57 @@
 	body {background-color: #ccc;}
 </style>
 <script type="text/javascript">
-	function canvasClock () {
-		var canvas = document.getElementById("clock");
-		var clock = canvas.getContext('2d');
-		clock.lineWidth = 7;
-		var timer = null;
+	var canvas = document.getElementById("clock");
+	var clock = canvas.getContext("2d");
+	clock.lineWidth = 7;
+	var timer = null;
+	function circle(o, x, y, r, s, e, b, rgb) {
+	    o.beginPath();
+	    o.strokeStyle = "#" + rgb;
+	    o.arc(x, y, r, s, e, b);
+	    o.stroke();
+	}
+	function draw(ctx) {
 	    var now = new Date();
 	    var h = now.getHours();
 	    var m = now.getMinutes();
 	    var s = now.getSeconds();
-	    //时间刻度的关系
-	    var md = s/600,hd = m/120;
-	    var srotate = s*Math.PI/30-Math.PI/2;
-	    var mrotate = m*Math.PI/30+md-Math.PI/2;
-	    var hrotate = h*Math.PI/6+hd-Math.PI/2;
-	    //定义圆圈
-		function circle(o,x,y,r,s,e,b,rgb) {
-			o.beginPath();
-			o.strokeStyle = '#'+ rgb;
-			o.arc(x,y,r,s,e,b);
-			o.stroke();
-		}
-		function draw(ctx) {
-	        ctx.clearRect(0,0,500,500);
-	        circle(ctx, 100, 200, 50, Math.PI*1.5, hrotate, false, '126acd');
-	        circle(ctx, 200, 200, 50, Math.PI*1.5, mrotate, false, '12855b');
-	        circle(ctx, 300, 200, 50, Math.PI*1.5, srotate, false, 'ee5500');
-	        ctx.font = "60px Arial";
-	        ctx.fillStyle = '#126acd';
-	        if(h < 10){
-	        	ctx.fillText('0'+h,65,220);
-	        }else{
-	        	ctx.fillText(h,65,220);
-	        }
-
-	        ctx.fillStyle = '#12855b';
-	        if(m < 10){
-	        	ctx.fillText('0'+m,165,220);
-	        }else{
-	        	ctx.fillText(m,165,220);
-	        }
-
-	        ctx.fillStyle = '#ee5500';
-	        if(s < 10){
-	        	ctx.fillText('0'+s,265,220);
-	        }else{
-	        	ctx.fillText(s,265,220);
-	        }
-
-	        requestAnimationFrame(function () {
-		        draw(ctx);
-		    });
-		}
-        requestAnimationFrame(function () {
-	        draw(clock);
+	    var md = s / 600, hd = m / 120;
+	    var srotate = s * Math.PI / 30 - Math.PI / 2;
+	    var mrotate = m * Math.PI / 30 + md - Math.PI / 2;
+	    var hrotate = h * Math.PI / 6 + hd - Math.PI / 2;
+	    ctx.clearRect(0, 0, 500, 500);
+	    circle(ctx, 100, 200, 50, Math.PI * 1.5, hrotate, false, "126acd");
+	    circle(ctx, 200, 200, 50, Math.PI * 1.5, mrotate, false, "12855b");
+	    circle(ctx, 300, 200, 50, Math.PI * 1.5, srotate, false, "ee5500");
+	    ctx.font = "60px Arial";
+	    ctx.fillStyle = "#126acd";
+	    if (h < 10) {
+	        ctx.fillText("0" + h, 65, 220);
+	    } else {
+	        ctx.fillText(h, 65, 220);
+	    }
+	    ctx.fillStyle = "#12855b";
+	    if (m < 10) {
+	        ctx.fillText("0" + m, 165, 220);
+	    } else {
+	        ctx.fillText(m, 165, 220);
+	    }
+	    ctx.fillStyle = "#ee5500";
+	    if (s < 10) {
+	        ctx.fillText("0" + s, 265, 220);
+	    } else {
+	        ctx.fillText(s, 265, 220);
+	    }
+	    requestAnimationFrame(function() {
+	        draw(ctx);
 	    });
-	    console.log(hrotate,mrotate,srotate,h,m,s)
 	}
-	timer = setInterval(canvasClock,1000)
+	requestAnimationFrame(function() {
+	    draw(clock);
+	});
+	console.log(hrotate, mrotate, srotate, h, m, s);
+	timer = setInterval(draw, 1e3);
 </script>
 
 </html>
